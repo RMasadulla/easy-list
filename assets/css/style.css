@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'newBangla';
+    src: url("../fonts/newBd-font.ttf");
+    font-style: normal;
+}
+
+body {
+    font-family: 'newBangla';
+}

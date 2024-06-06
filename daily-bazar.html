@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy List - Daily Bazar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   
+</head>
+
+<body class="flex flex-col min-h-screen">
+    <header class="bg-gray-600 p-4 text-white flex justify-between items-center">
+        <h1>Easy List</h1>
+        <nav class="flex items-center justify-center gap-2">
+            <li class="list-none"><a href="/">Home</a></li>
+            <li class="list-none"><a href="per-head.html">Per Member Need</a></li>
+            <li class="list-none"><a href="daily-bazar.html">Regular Bazar</a></li>
+        </nav>
+    </header>
+    <main class="flex-grow bg-blue-600 p-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
+            <h1 class="text-center font-bold text-base mb-4">প্রতিদিনের বাজার তালিকা </h1>
+            <form id="itemForm" class="space-y-4">
+                <div id="everyDayList">
+                    <div>
+                        <label for="a">চাল</label>
+                        <input id="a" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="b">ডাল</label>
+                        <input id="b" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="c">তেল</label>
+                        <input id="c" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="d">লবণ</label>
+                        <input id="d" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="d">মুরগির মাংস</label>
+                        <input id="d" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="d">গরুর মাংস</label>
+                        <input id="d" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="d">ডিম</label>
+                        <input id="d" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="d">মাছ</label>
+                        <input id="d" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="e">মিক্ম মশলা</label>
+                        <input id="e" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="f">কাঁচা মরিচ</label>
+                        <input id="f" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="g">শুকনা মরিচ</label>
+                        <input id="g" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="h">গুড়া মরিচ</label>
+                        <input id="h" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="i">গুড়া হলুদ</label>
+                        <input id="i" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="j">পেঁয়াজ</label>
+                        <input id="j" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="k">রসুন</label>
+                        <input id="k" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label for="l">আদা</label>
+                        <input id="l" type="number" min="0" value="0" class="w-full p-2 border rounded">
+                    </div>
+                </div>
+                <div>
+                    <button type="button" onclick="updateAndSaveData()"
+                        class="bg-gray-900 text-white py-1 px-8 rounded-lg mt-6">Save</button>
+                    <button type="button" onclick="downloadPDF()"
+                        class="bg-gray-900 text-white py-1 px-8 rounded-lg mt-6">Download PDF</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer class="bg-gray-600 p-4 text-white text-center">
+        All rights reserved || &copy; 2024
+    </footer>
+    <script src="./assets/js/index.js"></script>
+</body>
+</html>
