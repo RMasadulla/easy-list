@@ -10,87 +10,106 @@
 </head>
 
 <body class="flex flex-col min-h-screen">
-        <header class="bg-gray-600 p-4 text-white flex justify-between items-center">
-            <h1>Easy List</h1>
-            <nav class="flex items-center justify-center gap-2">
-                <li class="list-none"><a href="/easy-list">Home</a></li>
-                <li class="list-none"><a href="per-head.html">Per Member Need</a></li>
-                <li class="list-none"><a href="daily-bazar.html">Regular Bazar</a></li>
-            </nav>
-        </header>
+    <header class="bg-gray-600 p-4 text-white flex justify-between items-center">
+        <h1>Easy List</h1>
+        <nav class="flex items-center justify-center gap-2">
+            <li class="list-none"><a href="./">Home</a></li>
+            <li class="list-none"><a href="./per-head.html">Per Member Need</a></li>
+            <li class="list-none"><a href="./daily-bazar.html">Regular Bazar</a></li>
+        </nav>
+    </header>
     <main class="flex-grow bg-blue-600 p-4">
         <div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
             <h1 class="text-center font-bold text-base mb-4">বর্তমান বাজার মূল্য</h1>
             <form id="itemForm" class="space-y-4">
                 <div>
                     <label for="rice">চাল (প্রতি কেজি)</label>
-                    <input id="rice" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="rice" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="dal">ডাল (প্রতি কেজি)</label>
-                    <input id="dal" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="dal" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="oil">তেল (প্রতি কেজি)</label>
-                    <input id="oil" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="oil" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="salt">লবণ (প্রতি কেজি)</label>
-                    <input id="salt" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="salt" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="chicken-meat">মুরগির মাংস (প্রতি কেজি)</label>
-                    <input id="chicken-meat" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="chicken-meat" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="beef">গরুর মাংস (প্রতি কেজি)</label>
-                    <input id="beef" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="beef" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="egg">ডিম (প্রতি হালি)</label>
-                    <input id="egg" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="egg" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="fish" class="flex justify-between gap-2"><span class="text-lg">মাছ</span><span class="text-sm">(প্রতি কেজি /মোট টাকা)</span></label>
-                    <input id="fish" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <label for="fish" class="flex justify-between gap-2"><span class="text-lg">মাছ</span><span
+                            class="text-sm">(প্রতি কেজি /মোট টাকা)</span></label>
+                    <input id="fish" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="vegetable">সবজি (মোট টাকা)</label>
-                    <input id="vegetable" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="vegetable" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="green-chillies">কাঁচা মরিচ (প্রতি কেজি)</label>
-                    <input id="green-chillies" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="green-chillies" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="dry-chili">শুকনা মরিচ (প্রতি কেজি)</label>
-                    <input id="dry-chili" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="dry-chili" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="chilli-powder">গুড়া মরিচ (প্রতি কেজি)</label>
-                    <input id="chilli-powder" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="chilli-powder" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="yellow-powder">গুড়া হলুদ (প্রতি কেজি)</label>
-                    <input id="yellow-powder" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="yellow-powder" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="onion">পেঁয়াজ (প্রতি কেজি)</label>
-                    <input id="onion" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="onion" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="garlic">রসুন (প্রতি কেজি)</label>
-                    <input id="garlic" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="garlic" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="ginger">আদা (প্রতি কেজি)</label>
-                    <input id="ginger" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="ginger" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="mix-spices">মিক্স মশলা (মোট টাকা)</label>
-                    <input id="mix-spices" type="number" min="0" value="0" class="w-full p-2 border rounded outline-none focus:border-black">
+                    <input id="mix-spices" type="number" min="0" value="0"
+                        class="w-full p-2 border rounded outline-none focus:border-black">
                 </div>
-                <button type="button" onclick="updateAndSaveData()" class="bg-gray-900 text-white py-1 px-8 rounded-lg mt-6">Update</button>
+                <button type="button" onclick="updateAndSaveData()"
+                    class="bg-gray-900 text-white py-1 px-8 rounded-lg mt-6">Update</button>
             </form>
         </div>
     </main>

@@ -4,105 +4,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Easy List - Daily Bazar</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
-        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   
+    <title>Easy List - Mess Bazar List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.4.0/dist/jspdf.umd.min.js"></script>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="flex flex-col min-h-screen">
     <header class="bg-gray-600 p-4 text-white flex justify-between items-center">
         <h1>Easy List</h1>
         <nav class="flex items-center justify-center gap-2">
-            <li class="list-none"><a href="/easy-list">Home</a></li>
-            <li class="list-none"><a href="per-head.html">Per Member Need</a></li>
-            <li class="list-none"><a href="daily-bazar.html">Regular Bazar</a></li>
+            <li class="list-none"><a href="./">Home</a></li>
+            <li class="list-none"><a href="./per-head.html">Per Member Need</a></li>
+            <li class="list-none"><a href="./daily-bazar.html">Regular Bazar</a></li>
         </nav>
     </header>
     <main class="flex-grow bg-blue-600 p-4">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
-            <h1 class="text-center font-bold text-base mb-4">প্রতিদিনের বাজার তালিকা </h1>
-            <form id="itemForm" class="space-y-4">
-                <div id="everyDayList">
-                    <div>
-                        <label for="a">চাল</label>
-                        <input id="a" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="b">ডাল</label>
-                        <input id="b" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="c">তেল</label>
-                        <input id="c" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="d">লবণ</label>
-                        <input id="d" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="d">মুরগির মাংস</label>
-                        <input id="d" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="d">গরুর মাংস</label>
-                        <input id="d" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="d">ডিম</label>
-                        <input id="d" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="d">মাছ</label>
-                        <input id="d" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="e">মিক্ম মশলা</label>
-                        <input id="e" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="f">কাঁচা মরিচ</label>
-                        <input id="f" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="g">শুকনা মরিচ</label>
-                        <input id="g" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="h">গুড়া মরিচ</label>
-                        <input id="h" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="i">গুড়া হলুদ</label>
-                        <input id="i" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="j">পেঁয়াজ</label>
-                        <input id="j" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="k">রসুন</label>
-                        <input id="k" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
-                    <div>
-                        <label for="l">আদা</label>
-                        <input id="l" type="number" min="0" value="0" class="w-full p-2 border rounded">
-                    </div>
+        <div class="max-w-4xl mx-auto bg-gray-600 p-6 rounded-lg shadow-lg">
+            <div class="flex flex-col md:flex-row items-center gap-4 mb-2">
+                <div class="w-full">
+                    <label for="messName" class="text-black">মেসের নাম </label>
+                    <input id="messName" type="text" placeholder="Mess Name"
+                        class="w-full p-1 mt-2 border border-gray-300 rounded outline-none focus:border-black">
                 </div>
-                <div>
-                    <button type="button" onclick="updateAndSaveData()"
-                        class="bg-gray-900 text-white py-1 px-8 rounded-lg mt-6">Save</button>
-                    <button type="button" onclick="downloadPDF()"
-                        class="bg-gray-900 text-white py-1 px-8 rounded-lg mt-6">Download PDF</button>
+                <div class="w-full">
+                    <label for="managerName">ম্যানেজারের নাম </label>
+                    <input id="managerName" type="text" placeholder="Manager Name"
+                        class="w-full p-1 mt-2 border border-gray-300 rounded outline-none focus:border-black">
                 </div>
-            </form>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4 md:mb-2">
+                <div class="w-full">
+                    <label for="dayCount">দুপুর</label>
+                    <input id="dayCount" type="number" placeholder="Day"
+                        class="w-full mt-2 p-1 border border-gray-300 rounded outline-none focus:border-black">
+                </div>
+                <div class="w-full">
+                    <label for="nightCount">রাত</label>
+                    <input id="nightCount" type="number" placeholder="Night"
+                        class="w-full mt-2 p-1 border border-gray-300 rounded outline-none focus:border-black">
+                </div>
+                <div class="w-full">
+                    <label for="morningCount">সকাল</label>
+                    <input id="morningCount" type="number" placeholder="Morning"
+                        class="w-full mt-2 p-1 border border-gray-300 rounded outline-none focus:border-black">
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row items-center justify-between gap-4 border border-white mb-4 md:border-none p-4">
+                <div class="w-full">
+                    <label for="newItemName">অন্যান্য (নাম)</label>
+                    <input id="newItemName" type="text" placeholder="Item name"
+                        class="w-full mt-2 p-1 border border-gray-300 rounded outline-none focus:border-black">
+                </div>
+
+                <div class="w-full">
+                    <label for="newItemVal">অন্যান্য (কেজি/ মোট টাকা / পিস)</label>
+                    <input id="newItemVal" type="number" placeholder="Item value"
+                        class="w-full mt-2 p-1 border border-gray-300 rounded outline-none focus:border-black">
+                </div>
+                <div class="w-full mt-2 md:mt-8">
+                    <button id="addNewItem"
+                        class="px-8 py-1 text-base font-bold bg-blue-500 text-white rounded">Add</button>
+                </div>
+            </div>
+
+            <div class="bg-green-500 p-4 rounded-md">
+                <h2 class="text-xl font-bold text-center py-2">সবজির তালিকা</h2>
+                <label class="inline-flex items-center mr-4">
+                    <input id="potato" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">আলু</span>
+                </label>
+                <label class="inline-flex items-center mr-4">
+                    <input id="banana" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">বেগুন</span>
+                </label>
+                <label class="inline-flex items-center mr-4">
+                    <input id="banana" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">ঢেঁড়স</span>
+                </label>
+                <label class="inline-flex items-center mr-4">
+                    <input id="banana" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">পটল</span>
+                </label>
+                <label class="inline-flex items-center mr-4">
+                    <input id="tomato" type="checkbox" class="form-checkbox">
+                    <span class="ml-2"> লাল শাক</span>
+                </label>
+                <label class="inline-flex items-center mr-4">
+                    <input id="tomato" type="checkbox" class="form-checkbox">
+                    <span class="ml-2"> কলমি শাক</span>
+                </label>
+                <label class="inline-flex items-center mr-4">
+                    <input id="tomato" type="checkbox" class="form-checkbox">
+                    <span class="ml-2"> পুঁই শাক</span>
+                </label>
+                <label class="inline-flex items-center mr-4">
+                    <input id="tomato" type="checkbox" class="form-checkbox">
+                    <span class="ml-2"> পালন শাক</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input id="carrot" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">দেশি লাউ</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input id="carrot" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">মিষ্টি কুমড়া</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input id="carrot" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">চাল কুমড়া</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input id="carrot" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">বরবটি</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input id="carrot" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">করলা</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input id="carrot" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">বাঁধা কপি</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input id="carrot" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">ফুল কপি</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input id="carrot" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">গাঁজর</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input id="carrot" type="checkbox" class="form-checkbox">
+                    <span class="ml-2">টমেটো</span>
+                </label>
+            </div>
+
+        </div>
+
+        <div class="flex justify-center items-center my-4">
+            <button onclick="generatePDF()"
+                class="bg-white text-black font-bold text-base py-2 px-6 rounded-md hover:bg-gray-200">Download
+                PDF</button>
+        </div>
+
+        <div id="pdfBox" class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg mt-6">
+            <div class="border-4 border-gray-600 p-6 pb-0 rounded-md">
+                <div id="messNameId" class="mb-6 text-center">
+                    <h1
+                        class="flex flex-col md:flex-row justify-center items-center text-lg font-bold  border-b-2 border-gray-600 pb-2 inline-flex">
+                        নতুন মেস রাজশাহী<span class="text-base font-normal ml-2">(প্রতিদিনের বাজার তালিকা)</span></h1>
+                </div>
+
+                <ul id="bazarItemList" class="mb-6">
+                    <li class="my-3">
+                        <span class="text-base" id="listNumber">১.</span><span class="ml-1">চাল</span><span
+                            class="text-sm mx-2 text-yellow-800">(সকাল)</span>-<span class="mx-2">১০</span>কেজি
+                    </li>
+
+
+                    <div class="flex justify-end mt-12 md:mt-0">
+                        <div class="text-center">
+                            <p class="text-blue-500 font-bold text-base border-b pb-2 border-gray-600">মিল ম্যানেজার</p>
+                            <p class="mt-0" id="managerDetails">Manager Name</p>
+                            <p class="" id="currentDate">07 june 2024</p>
+                        </div>
+                    </div>
+            </div>
         </div>
     </main>
     <footer class="bg-gray-600 p-4 text-white text-center">
         All rights reserved || &copy; 2024
     </footer>
-    <script src="./assets/js/index.js"></script>
+    <script>
+        async function generatePDF() {
+            const { jsPDF } = window.jspdf;
+
+            // Fetch the Bengali font
+            const fontUrl = 'https://cdn.jsdelivr.net/gh/ainsleyclark/nikosh@main/Nikosh.ttf';
+            const font = await fetch(fontUrl).then(response => response.arrayBuffer());
+
+            // Convert the HTML content to canvas using html2canvas
+            const pdfBox = document.getElementById('pdfBox');
+            const canvas = await html2canvas(pdfBox, { useCORS: true });
+            const imgData = canvas.toDataURL('image/png');
+
+            // Create a new jsPDF instance
+            const pdf = new jsPDF('p', 'pt', 'a4');
+
+            // Add the custom font to jsPDF
+            pdf.addFileToVFS('Nikosh.ttf', font);
+            pdf.addFont('Nikosh.ttf', 'Nikosh', 'normal');
+            pdf.setFont('Nikosh');
+
+            // Add the image of the HTML content to the PDF
+            pdf.addImage(imgData, 'PNG', 40, 30);
+
+            // Save the PDF
+            pdf.save('document.pdf');
+        }
+    </script>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const managerDetails = document.getElementById('managerDetails');
+            const currentDate = document.getElementById('currentDate');
+            const addNewItemBtn = document.getElementById('addNewItem');
+            const extraItemsContainer = document.getElementById('extraItemsContainer');
+            const managerNameInput = document.getElementById('managerName');
+
+            const renderDate = () => {
+                const date = new Date();
+                const formattedDate = date.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                currentDate.textContent = formattedDate;
+            }
+
+            const renderManagerDetails = () => {
+                managerDetails.textContent = managerNameInput.value || '';
+            }
+
+            const addNewItem = () => {
+                const itemContainer = document.createElement('div');
+                itemContainer.className = 'flex items-center mb-2';
+                itemContainer.innerHTML = `
+                    <input type="text" placeholder="Extra new item" class="p-2 border border-gray-300 rounded mr-2">
+                    <button type="button" class="removeItem p-2 bg-red-500 text-white rounded">Remove</button>
+                `;
+                extraItemsContainer.appendChild(itemContainer);
+            }
+
+            addNewItemBtn.addEventListener('click', addNewItem);
+
+            extraItemsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('removeItem')) {
+                    e.target.parentElement.remove();
+                }
+            });
+
+            managerNameInput.addEventListener('input', renderManagerDetails);
+
+            renderDate();
+        });
+    </script> -->
 </body>
+
 </html>

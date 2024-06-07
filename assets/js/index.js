@@ -1,52 +1,53 @@
-// function downloadPDF() {
-
-//     const BanglaFont = 'data:font/ttf;base64,...'; 
-
-//     const { jsPDF } = window.jspdf;
-//     const doc = new jsPDF('p', 'pt', 'a4');  // 'pt' for points, 'a4' for A4 size paper
-
-//     const margin = 72; // 1 inch margin (72 points = 1 inch)
-//     const pageWidth = doc.internal.pageSize.getWidth();
-//     const pageHeight = doc.internal.pageSize.getHeight();
-
-//     const noticeContent = document.getElementById('everyDayList').innerText;
-
-
-
-//      // Add the custom Bangla font
-//      doc.addFileToVFS("BanglaFont.ttf", BanglaFont);
-//      doc.addFont("BanglaFont.ttf", "BanglaFont", "normal");
-//      doc.setFont("BanglaFont");
-
-//     // Draw border
-//     doc.setLineWidth(1);
-//     doc.rect(margin, margin, pageWidth - 2 * margin, pageHeight - 2 * margin);
-
-//     // Add title
-//     doc.setFontSize(16);
-//     doc.text("List", margin + 10, margin + 20);
-
-//     // Add notice content
-//     doc.setFontSize(14);
-//     const textYPosition = margin + 40;  // Adjust text position below the title
-//     doc.text(noticeContent, margin + 10, textYPosition, { maxWidth: pageWidth - 2 * margin - 20 });
-
-//     // Save the PDF
-//     doc.save("notice.pdf");
-// }
 function downloadPDF() {
-    var element = document.getElementById('everyDayList');
-    var opt = {
-        margin: .5,
-        filename: 'myfile.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 1 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
 
-    // New Promise-based usage:
-    html2pdf().set(opt).from(element).save();
+    const BanglaFont = 'data:font/ttf;base64,...'; 
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'pt', 'a4');  // 'pt' for points, 'a4' for A4 size paper
+
+    const margin = 72; // 1 inch margin (72 points = 1 inch)
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    const noticeContent = document.getElementById('everyDayList').innerText;
+
+
+
+     // Add the custom Bangla font
+     doc.addFileToVFS("BanglaFont.ttf", BanglaFont);
+     doc.addFont("BanglaFont.ttf", "BanglaFont", "normal");
+     doc.setFont("BanglaFont");
+
+    // Draw border
+    doc.setLineWidth(1);
+    doc.rect(margin, margin, pageWidth - 2 * margin, pageHeight - 2 * margin);
+
+    // Add title
+    doc.setFontSize(16);
+    doc.text("List", margin + 10, margin + 20);
+
+    // Add notice content
+    doc.setFontSize(14);
+    const textYPosition = margin + 40;  // Adjust text position below the title
+    doc.text(noticeContent, margin + 10, textYPosition, { maxWidth: pageWidth - 2 * margin - 20 });
+
+    // Save the PDF
+    doc.save("notice.pdf");
 }
+
+// function downloadPDF() {
+//     var element = document.getElementById('pdfBox');
+//     var opt = {
+//         margin: .5,
+//         filename: 'myfile.pdf',
+//         image: { type: 'jpeg', quality: 0.98 },
+//         html2canvas: { scale: 1 },
+//         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+//     };
+
+//     // New Promise-based usage:
+//     html2pdf().set(opt).from(element).save();
+// }
 
 
 
