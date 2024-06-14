@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Asadulla Ahmed">
+    <meta name="description" content="Easy list for all mess and hotel members">
     <title>Easy List - Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
@@ -23,91 +25,107 @@
             <h1 class="text-center font-bold text-base mb-4">বর্তমান বাজার মূল্য</h1>
             <form id="itemForm" class="space-y-4">
                 <div>
-                    <label for="rice">চাল (প্রতি কেজি)</label>
+                    <label for="rice" class="flex justify-between gap-2"><span class="text-lg">চাল</span><span
+                        class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="rice" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="dal">ডাল (প্রতি কেজি)</label>
+                    <label for="dal" class="flex justify-between gap-2"><span class="text-lg">ডাল</span><span
+                        class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="dal" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="oil">তেল (প্রতি কেজি)</label>
+                    <label for="oil" class="flex justify-between gap-2"><span class="text-lg">তেল</span><span
+                        class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="oil" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="salt">লবণ (প্রতি কেজি)</label>
+                    <label for="salt" class="flex justify-between gap-2"><span class="text-lg">লবণ</span><span
+                        class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="salt" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="chicken-meat">মুরগির মাংস (প্রতি কেজি)</label>
+                    <label for="chicken-meat" class="flex justify-between gap-2"><span class="text-lg">মুরগির মাংস</span><span
+                        class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="chicken-meat" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="beef">গরুর মাংস (প্রতি কেজি)</label>
+                    <label for="beef" class="flex justify-between gap-2"><span class="text-lg">গরুর মাংস</span><span
+                        class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="beef" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="egg">ডিম (প্রতি হালি)</label>
+                    <label for="egg" class="flex justify-between gap-2"><span class="text-lg">ডিম</span><span
+                        class="text-sm">(প্রতি হালি)</span></label>
                     <input id="egg" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
                     <label for="fish" class="flex justify-between gap-2"><span class="text-lg">মাছ</span><span
                             class="text-sm">(প্রতি কেজি /মোট টাকা)</span></label>
                     <input id="fish" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="vegetable">সবজি (মোট টাকা)</label>
+                    <label for="vegetable" class="flex justify-between gap-2"><span class="text-lg">সবজি</span><span
+                            class="text-sm">(মোট টাকা)</span></label>
                     <input id="vegetable" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="green-chillies">কাঁচা মরিচ (প্রতি কেজি)</label>
+                    <label for="green-chillies" class="flex justify-between gap-2"><span class="text-lg">কাঁচা মরিচ</span><span
+                            class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="green-chillies" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="dry-chili">শুকনা মরিচ (প্রতি কেজি)</label>
+                    <label for="dry-chili" class="flex justify-between gap-2"><span class="text-lg">শুকনা মরিচ</span><span
+                            class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="dry-chili" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="chilli-powder">গুড়া মরিচ (প্রতি কেজি)</label>
+                    <label for="chilli-powder" class="flex justify-between gap-2"><span class="text-lg">গুড়া মরিচ</span><span
+                            class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="chilli-powder" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="yellow-powder">গুড়া হলুদ (প্রতি কেজি)</label>
+                    <label for="yellow-powder" class="flex justify-between gap-2"><span class="text-lg">গুড়া হলুদ</span><span
+                            class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="yellow-powder" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="onion">পেঁয়াজ (প্রতি কেজি)</label>
+                    <label for="onion" class="flex justify-between gap-2"><span class="text-lg">পেঁয়াজ</span><span
+                            class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="onion" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="garlic">রসুন (প্রতি কেজি)</label>
+                    <label for="garlic" class="flex justify-between gap-2"><span class="text-lg">রসুন</span><span
+                            class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="garlic" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="ginger">আদা (প্রতি কেজি)</label>
+                    <label for="ginger" class="flex justify-between gap-2"><span class="text-lg">আদা</span><span
+                            class="text-sm">(প্রতি কেজি)</span></label>
                     <input id="ginger" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
                 </div>
                 <div>
-                    <label for="mix-spices">মিক্স মশলা (মোট টাকা)</label>
+                    <label for="mix-spices" class="flex justify-between gap-2"><span class="text-lg">মিক্স মশলা</span><span
+                            class="text-sm">(মোট টাকা)</span></label>
                     <input id="mix-spices" type="number" min="0" value="0"
-                        class="w-full p-2 border rounded outline-none focus:border-black">
-                </div>
+                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
+                </div> 
                 <button type="button" onclick="updateAndSaveData()"
                     class="bg-gray-900 text-white py-1 px-8 rounded-lg mt-6">Update</button>
             </form>

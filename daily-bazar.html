@@ -162,24 +162,29 @@
                 <div id="messNameId" class="mb-6 text-center">
                     <h1
                         class="flex flex-col md:flex-row justify-center items-center text-lg font-bold  border-b-2 border-gray-600 pb-2 inline-flex">
-                        নতুন মেস রাজশাহী<span class="text-base font-normal ml-2">(প্রতিদিনের বাজার তালিকা)</span></h1>
+                        <span id="messDetails">মেসের নাম</span>
+                        <span class="text-base font-normal ml-2">(প্রতিদিনের বাজার তালিকা)</span>
+                    </h1>
                 </div>
 
                 <ul id="bazarItemList" class="mb-6">
-                    <li class="my-3">
-                        <span class="text-base" id="listNumber">১.</span><span class="ml-1">চাল</span><span
-                            class="text-sm mx-2 text-yellow-800">(সকাল)</span>-<span class="mx-2">১০</span>কেজি
-                    </li>
+                    <!-- <li id="listItemNumber" class="my-3">
+                        <span class="text-base">১.</span><span class="ml-1" id="listItemName">চাল</span><span
+                            class="text-sm mx-2 text-yellow-800" id="listItemTime">(সকাল)</span>-<span class="mx-2"
+                            id="listItemQuantity">১০</span>কেজি
+                    </li> -->
+                </ul>
 
 
-                    <div class="flex justify-end mt-12 md:mt-0">
-                        <div class="text-center">
-                            <p class="text-blue-500 font-bold text-base border-b pb-2 border-gray-600">মিল ম্যানেজার</p>
-                            <p class="mt-0" id="managerDetails">Manager Name</p>
-                            <p class="" id="currentDate">07 june 2024</p>
-                        </div>
+                <div class="flex justify-end mt-12 md:mt-0 pb-4">
+                    <div class="text-center">
+                        <p class="text-blue-500 font-bold text-base border-b pb-2 border-gray-600">মিল ম্যানেজার</p>
+                        <p class="mt-0" id="managerDetails">Manager Name</p>
+                        <p class="" id="currentDate">07 june 2024</p>
                     </div>
+                </div>
             </div>
+            <p class="text-sm my-2">Developed by RM Asadulla</p>
         </div>
     </main>
     <footer class="bg-gray-600 p-4 text-white text-center">
@@ -213,6 +218,7 @@
             pdf.save('document.pdf');
         }
     </script>
+    <script src="./assets/js/index.js"></script>
     <!-- <script>
         document.addEventListener('DOMContentLoaded', () => {
             const managerDetails = document.getElementById('managerDetails');

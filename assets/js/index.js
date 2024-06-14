@@ -1,6 +1,6 @@
 function downloadPDF() {
 
-    const BanglaFont = 'data:font/ttf;base64,...'; 
+    const BanglaFont = 'data:font/ttf;base64,...';
 
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'pt', 'a4');  // 'pt' for points, 'a4' for A4 size paper
@@ -13,10 +13,10 @@ function downloadPDF() {
 
 
 
-     // Add the custom Bangla font
-     doc.addFileToVFS("BanglaFont.ttf", BanglaFont);
-     doc.addFont("BanglaFont.ttf", "BanglaFont", "normal");
-     doc.setFont("BanglaFont");
+    // Add the custom Bangla font
+    doc.addFileToVFS("BanglaFont.ttf", BanglaFont);
+    doc.addFont("BanglaFont.ttf", "BanglaFont", "normal");
+    doc.setFont("BanglaFont");
 
     // Draw border
     doc.setLineWidth(1);
@@ -67,101 +67,6 @@ function updateAndSaveData() {
 
     alert('Data saved successfully!');
 }
-
-// function updateAndSaveDivideData() {
-
-//     // Retrieve the stored data
-//     const getItemVal = JSON.parse(localStorage.getItem('formData'));
-
-//     if (!getItemVal) {
-//         console.error('No form data found in localStorage');
-//         return;
-//     }
-
-//     // Initialize an empty array to store the updated values
-//     let formData = [];
-
-//     // Iterate over each item in the retrieved data
-//     getItemVal.forEach((item) => {
-//         let newValue = item.value;
-
-//         // Check the item id and update the value accordingly
-//         if (item.id === "egg") {
-//             newValue = item.value / 4;
-//         } else {
-//             newValue = item.value
-//         }
-
-//         // Push the updated item into the formData array
-//         formData.push({
-//             id: item.id,
-//             value: newValue
-//         });
-//     });
-
-//     // Retrieve the input elements from the form
-//     const formElements = document.querySelectorAll('#itemDivideForm input[type="number"]');
-//     let itemDivideVal = [];
-
-//     formElements.forEach(input => {
-//         let newPerheadValue = parseFloat(input.value);
-
-//         // Check the item id and update the value accordingly
-//         if (input.id !== "p-egg") {
-//             newPerheadValue /= 1000;
-//         }
-
-//         // Format the value to ensure three decimal places if applicable
-//         newPerheadValue = newPerheadValue.toFixed(3);
-
-//         // Push the updated input into the itemDivideVal array
-//         itemDivideVal.push({
-//             id: input.id,
-//             value: newPerheadValue
-//         });
-//     });
-
-//     // Log the formatted values for verification
-//     console.log(itemDivideVal);
-
-//     // Optionally, save the formatted values to localStorage
-//     localStorage.setItem('perHeadCost', JSON.stringify(itemDivideVal));
-
-// }
-
-
-
-
-// function updateAndSaveDivideData() {
-//     // Retrieve the input elements from the form
-//     const formElements = document.querySelectorAll('#itemDivideForm input[type="number"]');
-//     let itemDivideVal = [];
-
-//     formElements.forEach(input => {
-//         let newPerheadValue = parseFloat(input.value);
-
-//         // Check the item id and update the value accordingly
-//         if (input.id !== "egg") {
-//             newPerheadValue /= 1000;
-//         }
-
-//         // Format the value to ensure three decimal places if applicable
-//         newPerheadValue = newPerheadValue.toFixed(3);
-
-//         // Push the updated input into the itemDivideVal array
-//         itemDivideVal.push({
-//             id: input.id,
-//             value: newPerheadValue
-//         });
-//     });
-
-//     // Log the formatted values for verification
-//     console.log(itemDivideVal);
-
-//     // Optionally, save the formatted values to localStorage
-//     localStorage.setItem('itemPerHead', JSON.stringify(itemDivideVal));
-// }
-
 
 
 function updateAndSaveDivideData() {
@@ -216,20 +121,20 @@ function updateAndSaveDivideData() {
             value: newPerheadValue
         });
     });
-    
+
 
     // Log the formatted values for verification
     console.log(itemDivideVal);
 
-   // Optionally, save the itemDivideVal to localStorage
-   localStorage.setItem('itemDivideVal', JSON.stringify(itemDivideVal));
+    // Optionally, save the itemDivideVal to localStorage
+    localStorage.setItem('itemDivideVal', JSON.stringify(itemDivideVal));
 
 
     // Combine formData and itemDivideVal to calculate perHeadCost
     let perHeadCost = [];
 
     formData.forEach(formItem => {
-        let itemDivide = itemDivideVal.find(item => item.id === `p-${formItem.id}`);
+        let itemDivide = itemDivideVal.find(item => item.id === `p-${formItem.id}` || `p-${formItem.id}-m` || `p-${formItem.id}-d` || `p-${formItem.id}-n`);
         if (itemDivide) {
             let combinedValue = (formItem.value * parseFloat(itemDivide.value)).toFixed(3);
             perHeadCost.push({
@@ -252,6 +157,8 @@ function updateAndSaveDivideData() {
 function loadData() {
     const savedData = JSON.parse(localStorage.getItem('formData'));
     const perHeadNeed = JSON.parse(localStorage.getItem('itemDivideVal'));
+    const localMessName = localStorage.getItem('messName');
+    const localmanagerName = localStorage.getItem('managerName');
 
     if (savedData) {
         savedData.forEach(item => {
@@ -274,7 +181,133 @@ function loadData() {
             }
         });
     }
+
+    if (localMessName) {
+        document.getElementById("messName").value = localMessName
+        document.getElementById("messDetails").textContent = localMessName
+    }
+    if (localmanagerName) {
+        document.getElementById("managerName").value = localmanagerName
+        document.getElementById("managerDetails").textContent = localmanagerName
+    }
 }
+
+
+function listUpdate() {
+
+    let pdfList = [];
+
+    const currentDate = document.getElementById('currentDate');
+
+    const messNameInput = document.getElementById("messName")
+    const messDetails = document.getElementById("messDetails")
+
+    const managerNameInput = document.getElementById('managerName');
+    const managerDetails = document.getElementById("managerDetails")
+
+    const renderDate = () => {
+        const date = new Date();
+        const formattedDate = date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        });
+        currentDate.textContent = formattedDate;
+    }
+
+    messNameInput.addEventListener('input', () => {
+        messDetails.textContent = messNameInput.value || 'মেসের নাম'
+        localStorage.setItem("messName", messDetails.textContent)
+    });
+
+
+    managerNameInput.addEventListener('input', () => {
+        managerDetails.textContent = managerNameInput.value || 'Manager Name';
+        localStorage.setItem("managerName", managerDetails.textContent)
+    });
+
+    renderDate()
+}
+
+
+// function memberAdd() {
+//     const bazarItemList = document.getElementById("bazarItemList")
+//     const dayCount = document.getElementById("dayCount")
+//         // const perHeadCost = JSON.parse(localStorage.getItem('perHeadCost'));
+//         const perHeadCost = JSON.parse(localStorage.getItem('itemDivideVal'));
+
+//     perHeadCost.forEach((val, i) => {
+
+//         const totalCost = (val.value * dayCount.value);
+//         const morningText = val.showMorning ? '(সকাল)' : '';
+//         const itemQty = val.id === "p-egg" ? 'পিস' : 'কেজি';
+
+//         bazarItemList.innerHTML += `
+//            <li id="listItemNumber" class="my-3">
+//             <span class="text-base">${i + 1}.</span><span class="ml-1" id="listItemName">${val.id}</span><span
+//                 class="text-sm mx-2 text-yellow-800" id="listItemTime">(সকাল)</span>-<span class="mx-2"
+//                     id="listItemQuantity">${totalCost}</span>${itemQty}
+//         </li>
+//         `;
+//     });
+// }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const bazarItemList = document.getElementById("bazarItemList");
+    const dayCount = document.getElementById("dayCount");
+    const nightCount = document.getElementById("nightCount");
+    const morningCount = document.getElementById("morningCount");
+
+    const memberAdd = () => {
+        // Clear the current list
+        bazarItemList.innerHTML = '';
+
+        // Get the perHeadCost from localStorage
+        const perHeadCost = JSON.parse(localStorage.getItem('itemDivideVal'));
+
+        perHeadCost.forEach((val, i) => {
+            const totalCost = (val.value * dayCount.value);
+            const dayText = val.id === "p-rice-m" ? '(সকাল)' : val.id === "p-rice-d" ? '(দুপুর)' : val.id === "p-rice-n" ? '(রাত)' : '';
+
+            const itemQty = val.id === "p-egg" ? 'পিস' : 'কেজি';
+
+            const itemName = val.id === "p-rice-m" ? "চাল" :
+                val.id === "p-rice-d" ? "চাল" :
+                    val.id === "p-rice-n" ? "চাল" :
+                        val.id === "p-dal" ? "ডাল" :
+                            val.id === "p-oil" ? "তেল" :
+                                val.id === "p-salt" ? "লবণ" :
+                                    val.id === "p-chicken-meat" ? "মুরগির মাংস" :
+                                        val.id === "p-beef" ? "গরুর মাংস" :
+                                            val.id === "p-egg" ? "ডিম" :
+                                                val.id === "p-green-chillies" ? "কাঁচা মরিচ" :
+                                                    val.id === "p-dry-chili" ? "শুকনা মরিচ" :
+                                                        val.id === "p-chilli-powder" ? "গুড়া মরিচ" :
+                                                            val.id === "p-yellow-powder" ? "গুড়া হলুদ" :
+                                                                val.id === "p-onion" ? "পেঁয়াজ" :
+                                                                    val.id === "p-garlic" ? "রসুন" :
+                                                                        val.id === "p-ginger" ? "আদা" : ""
+
+            if (val.value > 0) {
+                // Append the new list items
+                bazarItemList.innerHTML += `
+                <li id="listItemNumber" class="my-3">
+                <span class="text-base">${i + 1}.</span><span class="ml-1" id="listItemName">${itemName}</span><span
+                    class="text-sm mx-2 text-yellow-800" id="listItemTime">${dayText}</span>-<span class="mx-2"
+                        id="listItemQuantity">${totalCost.toFixed(3)}</span>${itemQty}
+                </li>
+                `;
+            }
+
+        });
+    }
+
+    // Initial call to display the list
+    memberAdd();
+
+    // Add event listener to dayCount input to call memberAdd on value change
+    dayCount.addEventListener('input', memberAdd);
+});
 
 
 // Function to get data from local storage for use on other pages
@@ -287,4 +320,5 @@ function loadData() {
 document.addEventListener('DOMContentLoaded', (event) => {
     // Load data from local storage when the page loads
     loadData();
+    listUpdate()
 });
