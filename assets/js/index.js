@@ -252,6 +252,68 @@ function listUpdate() {
 //     });
 // }
 
+// document.addEventListener('DOMContentLoaded', () => {
+//     const bazarItemList = document.getElementById("bazarItemList");
+//     const dayCount = document.getElementById("dayCount");
+//     const nightCount = document.getElementById("nightCount");
+//     const morningCount = document.getElementById("morningCount");
+
+//     const memberAdd = () => {
+//         // Clear the current list
+//         bazarItemList.innerHTML = '';
+
+//         // Get the perHeadCost from localStorage
+//         const perHeadCost = JSON.parse(localStorage.getItem('itemDivideVal'));
+
+//         perHeadCost.forEach((val, i) => {
+            
+
+//             const totalCost = val.id === "p-rice-m" ? (val.value * morningCount.value) :
+//                 val.id === "p-rice-d" ? (val.value * dayCount.value) :
+//                     val.id === "p-rice-n" ? (val.value * nightCount.value) : (val.value * dayCount.value);
+
+//             const dayText = val.id === "p-rice-m" ? '(সকাল)' : val.id === "p-rice-d" ? '(দুপুর)' : val.id === "p-rice-n" ? '(রাত)' : '';
+
+//             const itemQty = val.id === "p-egg" ? 'পিস' : 'কেজি';
+
+//             const itemName = val.id === "p-rice-m" ? "চাল" :
+//                 val.id === "p-rice-d" ? "চাল" :
+//                     val.id === "p-rice-n" ? "চাল" :
+//                         val.id === "p-dal" ? "ডাল" :
+//                             val.id === "p-oil" ? "তেল" :
+//                                 val.id === "p-salt" ? "লবণ" :
+//                                     val.id === "p-chicken-meat" ? "মুরগির মাংস" :
+//                                         val.id === "p-beef" ? "গরুর মাংস" :
+//                                             val.id === "p-egg" ? "ডিম" :
+//                                                 val.id === "p-green-chillies" ? "কাঁচা মরিচ" :
+//                                                     val.id === "p-dry-chili" ? "শুকনা মরিচ" :
+//                                                         val.id === "p-chilli-powder" ? "গুড়া মরিচ" :
+//                                                             val.id === "p-yellow-powder" ? "গুড়া হলুদ" :
+//                                                                 val.id === "p-onion" ? "পেঁয়াজ" :
+//                                                                     val.id === "p-garlic" ? "রসুন" :
+//                                                                         val.id === "p-ginger" ? "আদা" : ""
+
+//             if (val.value > 0) {
+//                 // Append the new list items
+//                 bazarItemList.innerHTML += `
+//                 <li id="listItemNumber" class="my-3">
+//                 <span class="text-base">${i + 1}.</span><span class="ml-1" id="listItemName">${itemName}</span><span
+//                     class="text-sm mx-2 text-yellow-800" id="listItemTime">${dayText}</span>-<span class="mx-2"
+//                         id="listItemQuantity">${totalCost.toFixed(3)}</span>${itemQty}
+//                 </li>
+//                 `;
+//             }
+
+//         });
+//     }
+
+//     // Initial call to display the list
+//     memberAdd();
+
+//     // Add event listener to dayCount input to call memberAdd on value change
+//     dayCount.addEventListener('input', memberAdd);
+// });
+
 document.addEventListener('DOMContentLoaded', () => {
     const bazarItemList = document.getElementById("bazarItemList");
     const dayCount = document.getElementById("dayCount");
@@ -266,7 +328,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const perHeadCost = JSON.parse(localStorage.getItem('itemDivideVal'));
 
         perHeadCost.forEach((val, i) => {
-            const totalCost = (val.value * dayCount.value);
+            let totalCost = 0;
+            if (val.id === "p-rice-m") {
+                totalCost = val.value * (parseFloat(morningCount.value) || 0);
+            } else if (val.id === "p-rice-d") {
+                totalCost = val.value * (parseFloat(dayCount.value) || 0);
+            } else if (val.id === "p-rice-n") {
+                totalCost = val.value * (parseFloat(nightCount.value) || 0);
+            } else {
+                totalCost = val.value * (parseFloat(dayCount.value) || 0); // Default case
+            }
+
             const dayText = val.id === "p-rice-m" ? '(সকাল)' : val.id === "p-rice-d" ? '(দুপুর)' : val.id === "p-rice-n" ? '(রাত)' : '';
 
             const itemQty = val.id === "p-egg" ? 'পিস' : 'কেজি';
@@ -298,16 +370,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 </li>
                 `;
             }
-
         });
     }
 
     // Initial call to display the list
     memberAdd();
 
-    // Add event listener to dayCount input to call memberAdd on value change
+    // Add event listeners to input fields to call memberAdd on value change
     dayCount.addEventListener('input', memberAdd);
+    nightCount.addEventListener('input', memberAdd);
+    morningCount.addEventListener('input', memberAdd);
 });
+
 
 
 // Function to get data from local storage for use on other pages
