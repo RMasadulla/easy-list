@@ -1,398 +1,450 @@
-function downloadPDF() {
+// assets/js/index.js
 
-    const BanglaFont = 'data:font/ttf;base64,...';
+// Global Variables
+let customItems = [];
+let selectedVegetables = [];
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'pt', 'a4');  // 'pt' for points, 'a4' for A4 size paper
+// DOM Content Loaded
+document.addEventListener("DOMContentLoaded", () => {
+  loadData();
+  listUpdate();
+  setupEventListeners();
+});
 
-    const margin = 72; // 1 inch margin (72 points = 1 inch)
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
+// Setup Event Listeners
+function setupEventListeners() {
+  // For daily-bazar.html
+  if (document.getElementById("addNewItem")) {
+    document
+      .getElementById("addNewItem")
+      .addEventListener("click", addCustomItem);
 
-    const noticeContent = document.getElementById('everyDayList').innerText;
+    // Vegetable checkboxes
+    const vegCheckboxes = document.querySelectorAll(
+      '.bg-green-100 input[type="checkbox"]'
+    );
+    vegCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", handleVegetableSelection);
+    });
 
-
-
-    // Add the custom Bangla font
-    doc.addFileToVFS("BanglaFont.ttf", BanglaFont);
-    doc.addFont("BanglaFont.ttf", "BanglaFont", "normal");
-    doc.setFont("BanglaFont");
-
-    // Draw border
-    doc.setLineWidth(1);
-    doc.rect(margin, margin, pageWidth - 2 * margin, pageHeight - 2 * margin);
-
-    // Add title
-    doc.setFontSize(16);
-    doc.text("List", margin + 10, margin + 20);
-
-    // Add notice content
-    doc.setFontSize(14);
-    const textYPosition = margin + 40;  // Adjust text position below the title
-    doc.text(noticeContent, margin + 10, textYPosition, { maxWidth: pageWidth - 2 * margin - 20 });
-
-    // Save the PDF
-    doc.save("notice.pdf");
+    // Meal count inputs
+    ["dayCount", "nightCount", "morningCount"].forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.addEventListener("input", generateBazarList);
+      }
+    });
+  }
 }
 
-// function downloadPDF() {
-//     var element = document.getElementById('pdfBox');
-//     var opt = {
-//         margin: .5,
-//         filename: 'myfile.pdf',
-//         image: { type: 'jpeg', quality: 0.98 },
-//         html2canvas: { scale: 1 },
-//         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-//     };
-
-//     // New Promise-based usage:
-//     html2pdf().set(opt).from(element).save();
-// }
-
-
-
-function updateAndSaveData() {
-    const formElements = document.querySelectorAll('#itemForm input[type="number"]');
-    let formData = [];
-
-    formElements.forEach(input => {
-        formData.push({
-            id: input.id,
-            value: input.value
-        });
-    });
-
-    // Save formData array to local storage
-    localStorage.setItem('formData', JSON.stringify(formData));
-
-    alert('Data saved successfully!');
-}
-
-
-function updateAndSaveDivideData() {
-
-    // Retrieve the stored data
-    const getItemVal = JSON.parse(localStorage.getItem('formData'));
-
-    if (!getItemVal) {
-        console.error('No form data found in localStorage');
-        return;
-    }
-
-    // Initialize an empty array to store the updated values
-    let formData = [];
-
-    // Iterate over each item in the retrieved data
-    getItemVal.forEach((item) => {
-        let newValue = item.value;
-
-        // Check the item id and update the value accordingly
-        if (item.id === "egg") {
-            newValue = item.value / 4;
-        } else {
-            newValue = item.value;
-        }
-
-        // Push the updated item into the formData array
-        formData.push({
-            id: item.id,
-            value: newValue
-        });
-    });
-
-    // Retrieve the input elements from the form
-    const formElements = document.querySelectorAll('#itemDivideForm input[type="number"]');
-    let itemDivideVal = [];
-
-    formElements.forEach(input => {
-        let newPerheadValue = parseFloat(input.value);
-
-        // Check the item id and update the value accordingly
-        if (input.id !== "p-egg") {
-            newPerheadValue /= 1000;
-        }
-
-        // Format the value to ensure three decimal places if applicable
-        newPerheadValue = newPerheadValue.toFixed(3);
-
-        // Push the updated input into the itemDivideVal array
-        itemDivideVal.push({
-            id: input.id,
-            value: newPerheadValue
-        });
-    });
-
-
-    // Log the formatted values for verification
-    console.log(itemDivideVal);
-
-    // Optionally, save the itemDivideVal to localStorage
-    localStorage.setItem('itemDivideVal', JSON.stringify(itemDivideVal));
-
-
-    // Combine formData and itemDivideVal to calculate perHeadCost
-    let perHeadCost = [];
-
-    formData.forEach(formItem => {
-        let itemDivide = itemDivideVal.find(item => item.id === `p-${formItem.id}` || `p-${formItem.id}-m` || `p-${formItem.id}-d` || `p-${formItem.id}-n`);
-        if (itemDivide) {
-            let combinedValue = (formItem.value * parseFloat(itemDivide.value)).toFixed(3);
-            perHeadCost.push({
-                id: formItem.id,
-                perHeadCost: combinedValue
-            });
-        }
-    });
-
-    // Log the perHeadCost for verification
-    console.log(perHeadCost);
-
-    // Optionally, save the perHeadCost to localStorage
-    localStorage.setItem('perHeadCost', JSON.stringify(perHeadCost));
-
-}
-
-
-
+// Load Data from Local Storage
 function loadData() {
-    const savedData = JSON.parse(localStorage.getItem('formData'));
-    const perHeadNeed = JSON.parse(localStorage.getItem('itemDivideVal'));
-    const localMessName = localStorage.getItem('messName');
-    const localmanagerName = localStorage.getItem('managerName');
+  // Load form data
+  const savedData = JSON.parse(localStorage.getItem("formData"));
+  if (savedData) {
+    savedData.forEach((item) => {
+      const inputElement = document.getElementById(item.id);
+      if (inputElement) {
+        inputElement.value = item.value;
+      }
+    });
+  }
 
-    if (savedData) {
-        savedData.forEach(item => {
-            const inputElement = document.getElementById(item.id);
-            if (inputElement) {
-                inputElement.value = item.value;
-            }
-        });
-    }
+  // Load per head data
+  const perHeadNeed = JSON.parse(localStorage.getItem("itemDivideVal"));
+  if (perHeadNeed) {
+    perHeadNeed.forEach((item) => {
+      const inputElement = document.getElementById(item.id);
+      if (inputElement) {
+        if (inputElement.id === "p-egg") {
+          inputElement.value = Math.round(item.value);
+        } else {
+          inputElement.value = Math.round(item.value * 1000);
+        }
+      }
+    });
+  }
 
-    if (perHeadNeed) {
-        perHeadNeed.forEach(item => {
-            const inputElement = document.getElementById(item.id);
-            if (inputElement) {
-                if (inputElement.id === "p-egg") {
-                    inputElement.value = Math.round(item.value);
-                } else {
-                    inputElement.value = Math.round(item.value * 1000);
-                }
-            }
-        });
-    }
+  // Load mess info
+  const localMessName = localStorage.getItem("messName");
+  const localmanagerName = localStorage.getItem("managerName");
+  if (localMessName && document.getElementById("messName")) {
+    document.getElementById("messName").value = localMessName;
+    document.getElementById("messDetails").textContent = localMessName;
+  }
+  if (localmanagerName && document.getElementById("managerName")) {
+    document.getElementById("managerName").value = localmanagerName;
+    document.getElementById("managerDetails").textContent = localmanagerName;
+  }
 
-    if (localMessName) {
-        document.getElementById("messName").value = localMessName
-        document.getElementById("messDetails").textContent = localMessName
-    }
-    if (localmanagerName) {
-        document.getElementById("managerName").value = localmanagerName
-        document.getElementById("managerDetails").textContent = localmanagerName
-    }
+  // Load custom items
+  const savedCustomItems = JSON.parse(localStorage.getItem("customItems"));
+  if (savedCustomItems) {
+    customItems = savedCustomItems;
+  }
+
+  // Load selected vegetables
+  const savedVegetables = JSON.parse(
+    localStorage.getItem("selectedVegetables")
+  );
+  if (savedVegetables) {
+    selectedVegetables = savedVegetables;
+    // Check the checkboxes
+    savedVegetables.forEach((veg) => {
+      const checkbox = document.querySelector(
+        `.bg-green-100 input[value="${veg}"]`
+      );
+      if (checkbox) checkbox.checked = true;
+    });
+  }
 }
 
+// Update and Save Price Data
+function updateAndSaveData() {
+  const formElements = document.querySelectorAll(
+    '#itemForm input[type="number"]'
+  );
+  let formData = [];
 
+  formElements.forEach((input) => {
+    formData.push({
+      id: input.id,
+      value: input.value,
+    });
+  });
+
+  localStorage.setItem("formData", JSON.stringify(formData));
+  alert("ডেটা সফলভাবে সংরক্ষণ করা হয়েছে!");
+}
+
+// Update and Save Per Head Data
+function updateAndSaveDivideData() {
+  const formElements = document.querySelectorAll(
+    '#itemDivideForm input[type="number"]'
+  );
+  let itemDivideVal = [];
+
+  formElements.forEach((input) => {
+    let value = parseFloat(input.value);
+
+    // Convert to kg (except for eggs)
+    if (input.id !== "p-egg") {
+      value = value / 1000; // Convert grams to kg
+    }
+
+    itemDivideVal.push({
+      id: input.id,
+      value: value.toFixed(3),
+    });
+  });
+
+  localStorage.setItem("itemDivideVal", JSON.stringify(itemDivideVal));
+  alert("সদস্য প্রতি ডেটা সফলভাবে সংরক্ষণ করা হয়েছে!");
+}
+
+// List Update for PDF
 function listUpdate() {
+  const currentDate = document.getElementById("currentDate");
+  const messNameInput = document.getElementById("messName");
+  const messDetails = document.getElementById("messDetails");
+  const managerNameInput = document.getElementById("managerName");
+  const managerDetails = document.getElementById("managerDetails");
 
-    let pdfList = [];
-
-    const currentDate = document.getElementById('currentDate');
-
-    const messNameInput = document.getElementById("messName")
-    const messDetails = document.getElementById("messDetails")
-
-    const managerNameInput = document.getElementById('managerName');
-    const managerDetails = document.getElementById("managerDetails")
-
-    const renderDate = () => {
-        const date = new Date();
-        const formattedDate = date.toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-        });
-        currentDate.textContent = formattedDate;
-    }
-
-    messNameInput.addEventListener('input', () => {
-        messDetails.textContent = messNameInput.value || 'মেসের নাম'
-        localStorage.setItem("messName", messDetails.textContent)
+  // Set current date
+  if (currentDate) {
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
     });
+    currentDate.textContent = formattedDate;
+  }
 
-
-    managerNameInput.addEventListener('input', () => {
-        managerDetails.textContent = managerNameInput.value || 'Manager Name';
-        localStorage.setItem("managerName", managerDetails.textContent)
+  // Mess name update
+  if (messNameInput && messDetails) {
+    messNameInput.addEventListener("input", () => {
+      messDetails.textContent = messNameInput.value || "মেসের নাম";
+      localStorage.setItem("messName", messNameInput.value);
     });
+  }
 
-    renderDate()
+  // Manager name update
+  if (managerNameInput && managerDetails) {
+    managerNameInput.addEventListener("input", () => {
+      managerDetails.textContent = managerNameInput.value || "Manager Name";
+      localStorage.setItem("managerName", managerNameInput.value);
+    });
+  }
 }
 
+// Add Custom Item
+function addCustomItem() {
+  const itemName = document.getElementById("newItemName").value.trim();
+  const itemValue = document.getElementById("newItemVal").value.trim();
 
-// function memberAdd() {
-//     const bazarItemList = document.getElementById("bazarItemList")
-//     const dayCount = document.getElementById("dayCount")
-//         // const perHeadCost = JSON.parse(localStorage.getItem('perHeadCost'));
-//         const perHeadCost = JSON.parse(localStorage.getItem('itemDivideVal'));
+  if (!itemName || !itemValue) {
+    alert("দয়া করে আইটেমের নাম এবং মান পূরণ করুন");
+    return;
+  }
 
-//     perHeadCost.forEach((val, i) => {
+  customItems.push({
+    name: itemName,
+    value: itemValue,
+    unit: isNaN(itemValue) ? "টাকা" : "কেজি",
+  });
 
-//         const totalCost = (val.value * dayCount.value);
-//         const morningText = val.showMorning ? '(সকাল)' : '';
-//         const itemQty = val.id === "p-egg" ? 'পিস' : 'কেজি';
+  localStorage.setItem("customItems", JSON.stringify(customItems));
 
-//         bazarItemList.innerHTML += `
-//            <li id="listItemNumber" class="my-3">
-//             <span class="text-base">${i + 1}.</span><span class="ml-1" id="listItemName">${val.id}</span><span
-//                 class="text-sm mx-2 text-yellow-800" id="listItemTime">(সকাল)</span>-<span class="mx-2"
-//                     id="listItemQuantity">${totalCost}</span>${itemQty}
-//         </li>
-//         `;
-//     });
-// }
+  // Clear inputs
+  document.getElementById("newItemName").value = "";
+  document.getElementById("newItemVal").value = "";
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     const bazarItemList = document.getElementById("bazarItemList");
-//     const dayCount = document.getElementById("dayCount");
-//     const nightCount = document.getElementById("nightCount");
-//     const morningCount = document.getElementById("morningCount");
+  // Regenerate list
+  generateBazarList();
+}
 
-//     const memberAdd = () => {
-//         // Clear the current list
-//         bazarItemList.innerHTML = '';
+// Handle Vegetable Selection
+function handleVegetableSelection(event) {
+  const vegetable = event.target.value;
 
-//         // Get the perHeadCost from localStorage
-//         const perHeadCost = JSON.parse(localStorage.getItem('itemDivideVal'));
+  if (event.target.checked) {
+    if (!selectedVegetables.includes(vegetable)) {
+      selectedVegetables.push(vegetable);
+    }
+  } else {
+    selectedVegetables = selectedVegetables.filter((v) => v !== vegetable);
+  }
 
-//         perHeadCost.forEach((val, i) => {
-            
+  localStorage.setItem(
+    "selectedVegetables",
+    JSON.stringify(selectedVegetables)
+  );
+  generateBazarList();
+}
 
-//             const totalCost = val.id === "p-rice-m" ? (val.value * morningCount.value) :
-//                 val.id === "p-rice-d" ? (val.value * dayCount.value) :
-//                     val.id === "p-rice-n" ? (val.value * nightCount.value) : (val.value * dayCount.value);
+// Generate Bazar List
+function generateBazarList() {
+  const bazarItemList = document.getElementById("bazarItemList");
+  if (!bazarItemList) return;
 
-//             const dayText = val.id === "p-rice-m" ? '(সকাল)' : val.id === "p-rice-d" ? '(দুপুর)' : val.id === "p-rice-n" ? '(রাত)' : '';
+  // Clear current list
+  bazarItemList.innerHTML = "";
 
-//             const itemQty = val.id === "p-egg" ? 'পিস' : 'কেজি';
+  // Get counts
+  const dayCount = parseFloat(document.getElementById("dayCount").value) || 0;
+  const nightCount =
+    parseFloat(document.getElementById("nightCount").value) || 0;
+  const morningCount =
+    parseFloat(document.getElementById("morningCount").value) || 0;
 
-//             const itemName = val.id === "p-rice-m" ? "চাল" :
-//                 val.id === "p-rice-d" ? "চাল" :
-//                     val.id === "p-rice-n" ? "চাল" :
-//                         val.id === "p-dal" ? "ডাল" :
-//                             val.id === "p-oil" ? "তেল" :
-//                                 val.id === "p-salt" ? "লবণ" :
-//                                     val.id === "p-chicken-meat" ? "মুরগির মাংস" :
-//                                         val.id === "p-beef" ? "গরুর মাংস" :
-//                                             val.id === "p-egg" ? "ডিম" :
-//                                                 val.id === "p-green-chillies" ? "কাঁচা মরিচ" :
-//                                                     val.id === "p-dry-chili" ? "শুকনা মরিচ" :
-//                                                         val.id === "p-chilli-powder" ? "গুড়া মরিচ" :
-//                                                             val.id === "p-yellow-powder" ? "গুড়া হলুদ" :
-//                                                                 val.id === "p-onion" ? "পেঁয়াজ" :
-//                                                                     val.id === "p-garlic" ? "রসুন" :
-//                                                                         val.id === "p-ginger" ? "আদা" : ""
+  // Get per head data
+  const perHeadCost = JSON.parse(localStorage.getItem("itemDivideVal")) || [];
 
-//             if (val.value > 0) {
-//                 // Append the new list items
-//                 bazarItemList.innerHTML += `
-//                 <li id="listItemNumber" class="my-3">
-//                 <span class="text-base">${i + 1}.</span><span class="ml-1" id="listItemName">${itemName}</span><span
-//                     class="text-sm mx-2 text-yellow-800" id="listItemTime">${dayText}</span>-<span class="mx-2"
-//                         id="listItemQuantity">${totalCost.toFixed(3)}</span>${itemQty}
-//                 </li>
-//                 `;
-//             }
+  // Generate list items
+  let itemCount = 1;
 
-//         });
+  // Rice - Morning
+  const riceM = perHeadCost.find((item) => item.id === "p-rice-m");
+  if (riceM && riceM.value > 0 && morningCount > 0) {
+    const total = (riceM.value * morningCount).toFixed(3);
+    addListItem(bazarItemList, itemCount++, "চাল", "(সকাল)", total, "কেজি");
+  }
+
+  // Rice - Day
+  const riceD = perHeadCost.find((item) => item.id === "p-rice-d");
+  if (riceD && riceD.value > 0 && dayCount > 0) {
+    const total = (riceD.value * dayCount).toFixed(3);
+    addListItem(bazarItemList, itemCount++, "চাল", "(দুপুর)", total, "কেজি");
+  }
+
+  // Rice - Night
+  const riceN = perHeadCost.find((item) => item.id === "p-rice-n");
+  if (riceN && riceN.value > 0 && nightCount > 0) {
+    const total = (riceN.value * nightCount).toFixed(3);
+    addListItem(bazarItemList, itemCount++, "চাল", "(রাত)", total, "কেজি");
+  }
+
+  // Other items
+  const otherItems = perHeadCost.filter(
+    (item) =>
+      !["p-rice-m", "p-rice-d", "p-rice-n"].includes(item.id) && item.value > 0
+  );
+
+  otherItems.forEach((item) => {
+    const total = (item.value * dayCount).toFixed(3);
+    const itemName = getItemName(item.id);
+    const unit = item.id === "p-egg" ? "পিস" : "কেজি";
+
+    if (itemName) {
+      addListItem(bazarItemList, itemCount++, itemName, "", total, unit);
+    }
+  });
+
+  // Vegetables
+  selectedVegetables.forEach((veg) => {
+    addListItem(bazarItemList, itemCount++, veg, "", "প্রয়োজনমত", "");
+  });
+
+  // Custom items
+  customItems.forEach((item) => {
+    addListItem(
+      bazarItemList,
+      itemCount++,
+      item.name,
+      "",
+      item.value,
+      item.unit
+    );
+  });
+
+  // Show PDF box
+  document.getElementById("pdfBox").classList.remove("hidden");
+}
+
+// Add List Item
+function addListItem(container, number, name, time, quantity, unit) {
+  const li = document.createElement("li");
+  li.className = "my-3 flex items-baseline";
+
+  li.innerHTML = `
+  <span class="text-base" style="white-space: nowrap;">${number}.</span>
+  <span class="ml-1" id="listItemName" style="overflow-wrap: break-word;">${name}</span>
+  <span class="text-sm mx-2 text-yellow-800" id="listItemTime">${time}</span>
+  <span>-</span>
+  <span class="mx-2" id="listItemQuantity">${quantity}</span>
+  <span>${unit}</span>
+`;
+
+  container.appendChild(li);
+}
+
+// Get Item Name from ID
+function getItemName(id) {
+  const itemMap = {
+    "p-dal": "ডাল",
+    "p-oil": "তেল",
+    "p-salt": "লবণ",
+    "p-chicken-meat": "মুরগির মাংস",
+    "p-beef": "গরুর মাংস",
+    "p-egg": "ডিম",
+    "p-green-chillies": "কাঁচা মরিচ",
+    "p-dry-chili": "শুকনা মরিচ",
+    "p-chilli-powder": "গুড়া মরিচ",
+    "p-yellow-powder": "গুড়া হলুদ",
+    "p-onion": "পেঁয়াজ",
+    "p-garlic": "রসুন",
+    "p-ginger": "আদা",
+  };
+
+  return itemMap[id] || "";
+}
+
+// Generate PDF
+// async function generatePDF() {
+//   // Show loading state
+//   const pdfButton = document.querySelector('button[onclick="generatePDF()"]');
+//   const originalText = pdfButton.textContent;
+//   pdfButton.textContent = "PDF তৈরি হচ্ছে...";
+//   pdfButton.disabled = true;
+
+//   try {
+//     const { jsPDF } = window.jspdf;
+//     const pdfBox = document.getElementById("pdfBox");
+
+//     // Temporarily show the PDF box if hidden
+//     const wasHidden = pdfBox.classList.contains("hidden");
+//     if (wasHidden) {
+//       pdfBox.classList.remove("hidden");
+//       // Generate a basic list if empty
+//       if (document.getElementById("bazarItemList").children.length === 0) {
+//         generateBazarList();
+//       }
 //     }
 
-//     // Initial call to display the list
-//     memberAdd();
+//     // Create canvas from HTML
+//     const canvas = await html2canvas(pdfBox, {
+//       scale: 2,
+//       useCORS: true,
+//       logging: false,
+//       allowTaint: true,
+//     });
 
-//     // Add event listener to dayCount input to call memberAdd on value change
-//     dayCount.addEventListener('input', memberAdd);
-// });
+//     // const canvas = await html2canvas(pdfBox, {
+//     //   scale: window.innerWidth < 768 ? 1.5 : 2, // use smaller scale on mobile
+//     //   width: 794,
+//     //   scrollY: 0,
+//     //   useCORS: true,
+//     // });
 
-document.addEventListener('DOMContentLoaded', () => {
-    const bazarItemList = document.getElementById("bazarItemList");
-    const dayCount = document.getElementById("dayCount");
-    const nightCount = document.getElementById("nightCount");
-    const morningCount = document.getElementById("morningCount");
+//     // Create PDF
+//     const pdf = new jsPDF("p", "pt", "a4");
+//     const imgData = canvas.toDataURL("image/png");
 
-    const memberAdd = () => {
-        // Clear the current list
-        bazarItemList.innerHTML = '';
+//     // Calculate aspect ratio to fit the PDF
+//     const imgWidth = pdf.internal.pageSize.getWidth();
+//     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        // Get the perHeadCost from localStorage
-        const perHeadCost = JSON.parse(localStorage.getItem('itemDivideVal'));
+//     pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
 
-        perHeadCost.forEach((val, i) => {
-            let totalCost = 0;
-            if (val.id === "p-rice-m") {
-                totalCost = val.value * (parseFloat(morningCount.value) || 0);
-            } else if (val.id === "p-rice-d") {
-                totalCost = val.value * (parseFloat(dayCount.value) || 0);
-            } else if (val.id === "p-rice-n") {
-                totalCost = val.value * (parseFloat(nightCount.value) || 0);
-            } else {
-                totalCost = val.value * (parseFloat(dayCount.value) || 0); // Default case
-            }
+//     // Get filename
+//     const messName = localStorage.getItem("messName") || "bazar_list";
+//     const date = new Date().toISOString().split("T")[0];
 
-            const dayText = val.id === "p-rice-m" ? '(সকাল)' : val.id === "p-rice-d" ? '(দুপুর)' : val.id === "p-rice-n" ? '(রাত)' : '';
+//     // Save PDF
+//     pdf.save(`${messName}_bazar_${date}.pdf`);
+//   } catch (error) {
+//     console.error("PDF generation error:", error);
+//     alert("PDF তৈরি করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।");
+//   } finally {
+//     // Restore button state
+//     pdfButton.textContent = originalText;
+//     pdfButton.disabled = false;
+//   }
+// }
+async function generatePDF() {
+  const pdfButton = document.querySelector('button[onclick="generatePDF()"]');
+  const originalText = pdfButton.textContent;
+  pdfButton.textContent = "PDF তৈরি হচ্ছে...";
+  pdfButton.disabled = true;
 
-            const itemQty = val.id === "p-egg" ? 'পিস' : 'কেজি';
+  try {
+    const { jsPDF } = window.jspdf;
+    const pdfBox = document.getElementById("pdfBox");
 
-            const itemName = val.id === "p-rice-m" ? "চাল" :
-                val.id === "p-rice-d" ? "চাল" :
-                    val.id === "p-rice-n" ? "চাল" :
-                        val.id === "p-dal" ? "ডাল" :
-                            val.id === "p-oil" ? "তেল" :
-                                val.id === "p-salt" ? "লবণ" :
-                                    val.id === "p-chicken-meat" ? "মুরগির মাংস" :
-                                        val.id === "p-beef" ? "গরুর মাংস" :
-                                            val.id === "p-egg" ? "ডিম" :
-                                                val.id === "p-green-chillies" ? "কাঁচা মরিচ" :
-                                                    val.id === "p-dry-chili" ? "শুকনা মরিচ" :
-                                                        val.id === "p-chilli-powder" ? "গুড়া মরিচ" :
-                                                            val.id === "p-yellow-powder" ? "গুড়া হলুদ" :
-                                                                val.id === "p-onion" ? "পেঁয়াজ" :
-                                                                    val.id === "p-garlic" ? "রসুন" :
-                                                                        val.id === "p-ginger" ? "আদা" : ""
+    // Force desktop layout temporarily
+    pdfBox.classList.add("pdf-desktop");
 
-            if (val.value > 0) {
-                // Append the new list items
-                bazarItemList.innerHTML += `
-                <li id="listItemNumber" class="my-3">
-                <span class="text-base">${i + 1}.</span><span class="ml-1" id="listItemName">${itemName}</span><span
-                    class="text-sm mx-2 text-yellow-800" id="listItemTime">${dayText}</span>-<span class="mx-2"
-                        id="listItemQuantity">${totalCost.toFixed(3)}</span>${itemQty}
-                </li>
-                `;
-            }
-        });
+    const wasHidden = pdfBox.classList.contains("hidden");
+    if (wasHidden) {
+      pdfBox.classList.remove("hidden");
+      generateBazarList();
     }
 
-    // Initial call to display the list
-    memberAdd();
+    window.scrollTo(0, 0);
 
-    // Add event listeners to input fields to call memberAdd on value change
-    dayCount.addEventListener('input', memberAdd);
-    nightCount.addEventListener('input', memberAdd);
-    morningCount.addEventListener('input', memberAdd);
-});
+    const canvas = await html2canvas(pdfBox, {
+      scale: 2, // keep high resolution
+      scrollY: 0,
+      useCORS: true,
+    });
 
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "pt", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
 
-// Function to get data from local storage for use on other pages
-// function getData() {
-//     return JSON.parse(localStorage.getItem('formData'));
-// }
-
-
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    // Load data from local storage when the page loads
-    loadData();
-    listUpdate()
-});
+    const messName = localStorage.getItem("messName") || "bazar_list";
+    const date = new Date().toISOString().split("T")[0];
+    pdf.save(`${messName}_bazar_${date}.pdf`);
+  } catch (error) {
+    console.error("PDF generation error:", error);
+    alert("PDF তৈরি করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+  } finally {
+    pdfBox.classList.remove("pdf-desktop"); // Reset layout after PDF
+    pdfButton.textContent = originalText;
+    pdfButton.disabled = false;
+  }
+}

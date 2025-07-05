@@ -1,9 +1,82 @@
+/* assets/css/style.css */
+
 @font-face {
-    font-family: 'newBangla';
-    src: url("../fonts/newBd-font.ttf");
-    font-style: normal;
+  font-family: "Nikosh";
+  src: url("../fonts/Nikosh.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
-    font-family: 'newBangla';
+  font-family: "Nikosh", "SolaimanLipi", "Bangla", Arial, sans-serif;
+}
+
+/* Number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* PDF Box styling */
+#pdfBox {
+  direction: rtl;
+}
+
+#bazarItemList li {
+  display: flex;
+  align-items: center;
+}
+
+/* Ensure PDF layout stays fixed even on small devices */
+#pdfBox {
+  width: 794px;
+  max-width: 100%;
+  margin: auto;
+  padding: 32px;
+  background: white;
+  direction: ltr;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* List items inside PDF box: make them wrap nicely */
+#bazarItemList li {
+  flex-wrap: wrap;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* Force desktop view for PDF */
+.pdf-desktop {
+  width: 794px !important;
+  padding: 32px !important;
+  font-size: 16px !important;
+  flex-direction: row !important;
+}
+
+/* PDF rendering style override */
+@media print, screen and (min-width: 769px) {
+  #pdfBox {
+    width: 794px;
+    padding: 32px;
+    font-size: 16px;
+  }
+
+  #bazarItemList li {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 16px;
+  }
+
+  #bazarItemList li span {
+    display: inline-block;
+    margin-right: 4px;
+  }
 }

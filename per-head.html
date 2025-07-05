@@ -1,119 +1,262 @@
+<!-- per-head.html -->
+
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Easy List - Per Member Need</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-</head>
-
-<body class="flex flex-col min-h-screen">
-    <header class="bg-gray-600 p-4 text-white flex justify-between items-center">
-        <h1>Easy List</h1>
-        <nav class="flex items-center justify-center gap-2">
-            <li class="list-none"><a href="./">Home</a></li>
-            <li class="list-none"><a href="./per-head.html">Per Member Need</a></li>
-            <li class="list-none"><a href="./daily-bazar.html">Regular Bazar</a></li>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Easy List - সদস্য প্রতি</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body class="flex flex-col min-h-screen bg-gray-100">
+    <header class="bg-blue-700 p-4 text-white shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold">Easy List</h1>
+        <nav class="flex items-center space-x-4">
+          <a href="./" class="px-3 py-1 hover:bg-blue-600 rounded-md">হোম</a>
+          <a href="./per-head.html" class="px-3 py-1 bg-blue-800 rounded-md"
+            >সদস্য প্রতি</a
+          >
+          <a
+            href="./daily-bazar.html"
+            class="px-3 py-1 hover:bg-blue-600 rounded-md"
+            >দৈনিক বাজার</a
+          >
         </nav>
+      </div>
     </header>
-    <main class="flex-grow bg-blue-600 p-4">
-        <div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
-            <h1 class="text-center font-bold text-base mb-4"> জন প্রতি প্রয়োজন (গ্রাম / পিস) </h1>
-            <form id="itemDivideForm" class="space-y-4">
-                <div>
-                    <label for="p-rice-d" class="flex justify-between gap-2"><span class="text-lg">চাল</span><span
-                            class="text-yellow-700">(দুপুর)</span></label>
-                    <input id="p-rice-d" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-rice-n" class="flex justify-between gap-2"><span class="text-lg">চাল</span><span
-                            class="text-gray-600">(রাত)</span></label>
-                    <input id="p-rice-n" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-rice-m" class="flex justify-between gap-2"><span class="text-lg">চাল</span><span
-                            class="text-green-700">(সকাল)</span></label>
-                    <input id="p-rice-m" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-dal">ডাল</label>
-                    <input id="p-dal" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-oil">তেল</label>
-                    <input id="p-oil" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-salt">লবণ</label>
-                    <input id="p-salt" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-chicken-meat">মুরগির মাংস</label>
-                    <input id="p-chicken-meat" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-beef">গরুর মাংস</label>
-                    <input id="p-beef" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-egg">ডিম</label>
-                    <input id="p-egg" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-green-chillies">কাঁচা মরিচ</label>
-                    <input id="p-green-chillies" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-dry-chili">শুকনা মরিচ</label>
-                    <input id="p-dry-chili" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-chilli-powder">গুড়া মরিচ</label>
-                    <input id="p-chilli-powder" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-yellow-powder">গুড়া হলুদ</label>
-                    <input id="p-yellow-powder" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-onion">পেঁয়াজ</label>
-                    <input id="p-onion" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-garlic">রসুন</label>
-                    <input id="p-garlic" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <div>
-                    <label for="p-ginger">আদা</label>
-                    <input id="p-ginger" type="number" min="0" value="0"
-                        class="w-full p-2 mt-1 border rounded outline-none focus:border-black">
-                </div>
-                <button type="button" onclick="updateAndSaveDivideData()"
-                    class="bg-gray-900 text-white py-1 px-8 rounded-lg mt-6">Update</button>
-            </form>
-        </div>
-    </main>
-    <footer class="bg-gray-600 p-4 text-white text-center">
-        &copy; 2024 || all rights reserved by RM Asadulla
-    </footer>
-    <script src="./assets/js/index.js"></script>
-</body>
 
+    <main class="flex-grow container mx-auto p-4">
+      <div
+        class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden"
+      >
+        <div class="bg-green-600 p-4 text-white text-center">
+          <h1 class="text-xl font-bold">সদস্য প্রতি প্রয়োজন (গ্রাম/পিস)</h1>
+        </div>
+
+        <form id="itemDivideForm" class="p-6 space-y-4">
+          <!-- Rice - Different Times -->
+          <div class="space-y-4">
+            <div>
+              <label for="p-rice-d" class="flex justify-between items-center">
+                <span class="text-lg font-medium">চাল</span>
+                <span class="text-sm text-yellow-300">(দুপুর)</span>
+              </label>
+              <input
+                id="p-rice-d"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-rice-n" class="flex justify-between items-center">
+                <span class="text-lg font-medium">চাল</span>
+                <span class="text-sm text-gray-600">(রাত)</span>
+              </label>
+              <input
+                id="p-rice-n"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-rice-m" class="flex justify-between items-center">
+                <span class="text-lg font-medium">চাল</span>
+                <span class="text-sm text-green-500">(সকাল)</span>
+              </label>
+              <input
+                id="p-rice-m"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          <!-- Other Items -->
+          <div class="grid grid-cols-1 gap-4">
+            <div>
+              <label for="p-dal" class="text-lg font-medium">ডাল</label>
+              <input
+                id="p-dal"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-oil" class="text-lg font-medium">তেল</label>
+              <input
+                id="p-oil"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-salt" class="text-lg font-medium">লবণ</label>
+              <input
+                id="p-salt"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-chicken-meat" class="text-lg font-medium"
+                >মুরগির মাংস</label
+              >
+              <input
+                id="p-chicken-meat"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-beef" class="text-lg font-medium">গরুর মাংস</label>
+              <input
+                id="p-beef"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-egg" class="text-lg font-medium">ডিম</label>
+              <input
+                id="p-egg"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-green-chillies" class="text-lg font-medium"
+                >কাঁচা মরিচ</label
+              >
+              <input
+                id="p-green-chillies"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-dry-chili" class="text-lg font-medium"
+                >শুকনা মরিচ</label
+              >
+              <input
+                id="p-dry-chili"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-chilli-powder" class="text-lg font-medium"
+                >গুড়া মরিচ</label
+              >
+              <input
+                id="p-chilli-powder"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-yellow-powder" class="text-lg font-medium"
+                >গুড়া হলুদ</label
+              >
+              <input
+                id="p-yellow-powder"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-onion" class="text-lg font-medium">পেঁয়াজ</label>
+              <input
+                id="p-onion"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-garlic" class="text-lg font-medium">রসুন</label>
+              <input
+                id="p-garlic"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label for="p-ginger" class="text-lg font-medium">আদা</label>
+              <input
+                id="p-ginger"
+                type="number"
+                min="0"
+                value="0"
+                class="w-full p-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          <div class="pt-4">
+            <button
+              type="button"
+              onclick="updateAndSaveDivideData()"
+              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300"
+            >
+              আপডেট করুন
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white p-4 text-center">
+      &copy; ২০২৪ - RM Asadulla - সকল অধিকার সংরক্ষিত
+    </footer>
+
+    <script src="./assets/js/index.js"></script>
+  </body>
 </html>
